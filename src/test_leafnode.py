@@ -18,5 +18,9 @@ class TestLeafNode(unittest.TestCase):
             node = LeafNode('p', None)
             node.to_html()
 
+    def test_leaf_no_tag(self):
+        node = LeafNode(tag=None, value="Some Text")
+        self.assertEqual(node.to_html(), "Some Text")
+
 if __name__ == '__main__':
     unittest.main()

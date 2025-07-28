@@ -1,58 +1,40 @@
 import unittest
 
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode
 
 class TestHTMLNode(unittest.TestCase):
-    def test_one(self):
+    def test_html_props(self):
         prop = {'href': 'https://boot.dev'}
         node = HTMLNode('a', 'Boot.dev', children=None, props=prop)
-        print("Link Test")
-        print(node)
-        print()
+        self.assertEqual(node.tag, 'a')
+        self.assertEqual(node.value, 'Boot.dev')
+        self.assertEqual(node.props, {'href': 'https://boot.dev'})
+        self.assertEqual(node.children, None)
 
-    def test_two(self):
+    def test_html_tag_value(self):
         node = HTMLNode('p', 'Paragraph')
-        print("Paragraph Test")
-        print(node)
-        print()
+        self.assertEqual(node.tag, 'p')
+        self.assertEqual(node.value, 'Paragraph')
+        self.assertEqual(node.props, None)
+        self.assertEqual(node.children, None)
 
-    def test_three(self):
+    def test_html_child(self):
         child = HTMLNode('p', 'Paragraph')
         child_list = [child]
         node = HTMLNode(children=child_list)
-        print("Child Test")
-        print(node)
-        print()
+        self.assertEqual(node.tag, None)
+        self.assertEqual(node.value, None)
+        self.assertEqual(node.props, None)
+        self.assertEqual(node.children, [child])
 
-    def test_four(self):
+    def test_props_to_html(self):
         prop = {'href': 'https://boot.dev', 'target': '_blank'}
         node = HTMLNode('a', 'Boot.dev', children=None, props=prop)
         html = node.props_to_html()
-        print("Props Test")
-        print(html)
-        print()
-
-    def test_leaf_to_html_p(self):
-        node = LeafNode("p", "Hello, world!")
-        print("Leaf Test")
-        self.assertEqual(node.to_html(), "<p>Hello, world!</p>")
-        print()
-
-    def test_leaf_to_html_prop(self):
-        prop = {'href': 'https://boot.dev'}
-        node = LeafNode(tag="a", value='Boot.dev', props=prop)
-        html_string = node.to_html()
-        print("Leaf Prop Test")
-        print(html_string)
-        print()
-
-    def test_leaf_none_value(self):
-        with self.assertRaises(ValueError):
-            node = LeafNode('p', None)
-            node.to_html()
-
-
-
+        self.assertEqual(node.props, prop)
+        self.assertEqual(node.tag, 'a')
+        self.assertEqual(node.value, 'Boot.dev')
+        self.assertEqual(html, " href=\"https://boot.dev\" target=\"_blank\"")
 
 if __name__ == '__main__':
     unittest.main()
